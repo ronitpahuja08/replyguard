@@ -1,0 +1,47 @@
+id: cm-tc-018
+title: '''Later, after Eid'': warm; no holiday calendar yet, so ask when'
+tags:
+- whatsapp
+- ar
+- not_now
+- holiday
+rules:
+- CM-022
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: مرحبا خالد، قسنا كيف يرد معرض النور على استفسارات الواتساب بعد الدوام، والنتيجة لفتت انتباهنا. أرسل لك الملخص؟ علي، Paralax. للإلغاء،
+      أرسل STOP.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: بعدين، بعد العيد
+expect:
+  label: not_now
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: warm
+  followup:
+    kind: not_now
+    at: null
+    anchor: after_eid_al_fitr
+  handover: false
+  reply: when_suits_you
+  reply_language: ar
+  also: []

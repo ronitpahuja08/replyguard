@@ -1,0 +1,17 @@
+id: cm-good-03
+channel: whatsapp
+language: en
+summary: '''Are you a bot?'' gets a plain yes and a human.'
+input:
+  reply: Honest question - is this a bot?
+output:
+  label: bot_question
+  reply: Yes, these messages are sent by an automated assistant on behalf of Ali at Paralax. Ali will reply to you personally. Reply STOP to opt
+    out.
+  handover:
+    reasons:
+    - bot_question
+why:
+- CM-016
+- CM-017
+explanation: 'Owner rule: truthful when asked. No pitch and no question in the disclosure; the human takes over.'

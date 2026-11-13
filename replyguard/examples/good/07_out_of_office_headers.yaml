@@ -1,0 +1,20 @@
+id: cm-good-07
+channel: email
+language: en
+summary: An out-of-office with Auto-Submitted is never answered; the sequence resumes after the return date.
+input:
+  headers:
+    Auto-Submitted: auto-replied
+  reply: Out of office until 24 Nov.
+output:
+  label: auto_reply
+  reply: null
+  counts_as_reply: false
+  company_lock: released_auto_reply
+  followup:
+    kind: resume_after_ooo
+    'on': '2026-11-25'
+why:
+- CM-007
+- CM-008
+explanation: 'RFC 3834: Auto-Submitted other than ''no'' is not a person; never answer it.'

@@ -1,0 +1,44 @@
+id: cm-tc-031
+title: 'Meeting request with an approved booking link: send the link; the state changes only when booked'
+tags:
+- email
+- en
+- meeting
+rules:
+- CM-027
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: https://cal.example/paralax-ali
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Happy to have a quick call about this.
+expect:
+  label: meeting_request
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover: false
+  reply: booking_link
+  must_include:
+  - https://cal.example/paralax-ali
+  calendar_events_created: 0
+  also: []

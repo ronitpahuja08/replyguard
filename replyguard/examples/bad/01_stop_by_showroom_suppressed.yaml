@@ -1,0 +1,16 @@
+id: cm-bad-01
+channel: whatsapp
+summary: WRONG. 'Please stop by our showroom' was treated as STOP.
+output_given:
+  label: opt_out
+  suppress: person
+output_expected:
+  label: meeting_request
+  suppress: none
+  handover:
+    reasons:
+    - visit_request
+why:
+- CM-005
+- CM-018
+explanation: 'Meaning over keywords. And the agent never accepts a visit: a human handles it.'

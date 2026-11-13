@@ -1,0 +1,51 @@
+id: cm-tc-009
+title: '''This is spam. Reported.'': suppression + account signals + human, no automated reply'
+tags:
+- whatsapp
+- en
+- complaint
+- account_health
+- detector_gap
+- locked
+rules:
+- CM-010
+- CM-044
+- CM-028
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: This is spam. Reported.
+expect:
+  label: complaint
+  detector_opt_out: true  # v1.1: the 10 Nov 2026 detector gap is fixed in domain/optout.py
+  suppress: person
+  lead_state_after: do_not_contact
+  account_signals:
+  - complaint
+  - report
+  handover:
+    reasons:
+    - complaint
+  reply: none
+  also: []

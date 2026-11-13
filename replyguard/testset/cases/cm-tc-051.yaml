@@ -1,0 +1,43 @@
+id: cm-tc-051
+title: 'Mixed English + Arabic ''send the report please, thanks'': positive, reply in English (majority of words)'
+tags:
+- whatsapp
+- mixed
+- positive
+rules:
+- CM-032
+- CM-023
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Hi, send the report please. شكراً
+expect:
+  label: positive
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover: false
+  reply: jab_2
+  reply_language: en
+  also: []

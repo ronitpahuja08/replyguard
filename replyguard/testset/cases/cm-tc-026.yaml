@@ -1,0 +1,43 @@
+id: cm-tc-026
+title: An open question gets two lines from the offer, then jab 2
+tags:
+- email
+- en
+- question
+rules:
+- CM-024
+- CM-030
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: sounds interesting, what does it involve?
+expect:
+  label: question
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover: false
+  reply: two_line_answer_then_jab_2
+  claims_traced: true
+  also: []

@@ -1,0 +1,19 @@
+id: cm-good-02
+channel: whatsapp
+language: ar
+summary: A Gulf reply the detector misses ('احذف رقمي') is caught by the classifier and runs erasure on every channel.
+input:
+  reply: احذف رقمي لو سمحت
+output:
+  label: opt_out
+  detector_opt_out: false
+  classifier: opt_out 0.97
+  suppress: person
+  erase: true
+  action: paralax erase --phone +971501230044
+  lead_state_after: do_not_contact
+why:
+- CM-004
+- CM-005
+- CM-043
+explanation: Opt-out is the union of detector and classifier. A request to delete the number is also a deletion request (D3).

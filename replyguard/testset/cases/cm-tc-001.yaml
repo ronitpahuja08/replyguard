@@ -1,0 +1,47 @@
+id: cm-tc-001
+title: Bare STOP on WhatsApp is an opt-out on every channel
+tags:
+- whatsapp
+- en
+- opt_out
+- locked
+rules:
+- CM-004
+- CM-011
+- CM-013
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: STOP
+expect:
+  label: opt_out
+  suppress: person
+  lead_state_after: do_not_contact
+  account_signals: []
+  cancel_jobs: true
+  reply: confirmation_only
+  detector_opt_out: true
+  company_lock: kept
+  handover: false
+  also: []

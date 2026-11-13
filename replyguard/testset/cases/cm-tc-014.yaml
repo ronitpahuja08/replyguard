@@ -1,0 +1,49 @@
+id: cm-tc-014
+title: Arabic detector false positive ('our work never stopped, send the report') stays suppressed; a human reviews
+tags:
+- whatsapp
+- ar
+- detector_false_positive
+- tricky
+- locked
+rules:
+- CM-004
+- CM-006
+- CM-028
+input:
+  detector_opt_out: true  # v1.1: the verdict recorded at intake (v1.0 detector fired); the detector no longer fires on this text
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: مرحبا خالد، قسنا كيف يرد معرض النور على استفسارات الواتساب بعد الدوام، والنتيجة لفتت انتباهنا. أرسل لك الملخص؟ علي، Paralax. للإلغاء،
+      أرسل STOP.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: الشغل عندنا ما توقف طول رمضان، ارسل التقرير
+expect:
+  label: positive
+  detector_opt_out: true
+  suppress: person
+  suppression_lifted: false
+  lead_state_after: do_not_contact
+  handover:
+    reasons:
+    - possible_false_opt_out
+  reply: none
+  also: []

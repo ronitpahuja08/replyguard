@@ -1,0 +1,14 @@
+id: cm-bad-05
+channel: email
+summary: WRONG. An out-of-office named 'Sara at sara@...'; the agent emailed Sara straight away.
+output_given:
+  messages_to_sara: 1
+output_expected:
+  route_to:
+  - contact_finder
+  messages_to_sara_before_verified: 0
+  reply_to_auto_reply: null
+why:
+- CM-007
+- CM-019
+explanation: Verified contacts only, and never answer an auto-reply.

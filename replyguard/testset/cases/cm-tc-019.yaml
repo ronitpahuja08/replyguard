@@ -1,0 +1,44 @@
+id: cm-tc-019
+title: '''Not until Q1'': follow-up on the first working day of Q1'
+tags:
+- email
+- en
+- not_now
+rules:
+- CM-022
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Thanks but we're not looking at this until Q1
+expect:
+  label: not_now
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: warm
+  followup:
+    kind: not_now
+    'on': '2027-01-04'
+  handover: false
+  reply: confirm_date
+  also: []

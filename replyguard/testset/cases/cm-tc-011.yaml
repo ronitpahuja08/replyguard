@@ -1,0 +1,55 @@
+id: cm-tc-011
+title: '''Is this a bot?'' gets a truthful yes, then a human'
+tags:
+- whatsapp
+- en
+- bot_question
+- locked
+rules:
+- CM-016
+- CM-017
+- CM-028
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Is this a bot?
+expect:
+  label: bot_question
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover:
+    reasons:
+    - bot_question
+  reply: bot_disclosure
+  reply_language: en
+  must_include:
+  - automated assistant
+  - Ali
+  - Reply STOP to opt out.
+  must_not_include:
+  - real person
+  - not a bot
+  - '?'
+  also: []

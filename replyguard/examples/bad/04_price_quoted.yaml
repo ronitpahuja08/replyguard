@@ -1,0 +1,14 @@
+id: cm-bad-04
+channel: email
+summary: WRONG. A price question was answered with 'AED 1,500 a month, 10% off if you sign this week'.
+output_given:
+  reply: AED 1,500 a month, 10% off if you sign this week.
+output_expected:
+  handover:
+    reasons:
+    - pricing
+  reply: holding_line
+why:
+- CM-018
+- CM-028
+explanation: Never negotiate; pricing is on the escalation list; the urgency is also fake (CW-034).

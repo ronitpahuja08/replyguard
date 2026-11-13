@@ -1,0 +1,54 @@
+id: cm-tc-046
+title: 'A reply on email locks the company: the colleague''s WhatsApp touch tomorrow is cancelled'
+tags:
+- email
+- en
+- company_lock
+- locked
+rules:
+- CM-014
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Interesting. Send me the summary.
+  company:
+    other_leads:
+    - id: lead-mona
+      state: contacted
+      next_job:
+        channel: whatsapp
+        at: '2026-11-11T10:20:00+04:00'
+expect:
+  label: positive
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  company_lock: kept
+  cancelled_jobs:
+  - lead: lead-mona
+    channel: whatsapp
+    kind: sequence.next
+  handover: false
+  reply: jab_2
+  also: []

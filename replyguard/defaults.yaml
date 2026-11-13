@@ -1,0 +1,218 @@
+# ReplyGuard (ReplyGuard): defaults, playbook v1.0 (10 Nov 2026)
+# Every value is a DEFAULT (changeable only through a Gate 4 decision proposal) unless marked LOCKED.
+# Each comment names the rule (playbook/PLAYBOOK.md) and the source (playbook/SOURCES.md).
+# Values marked "ours" are starting values, not researched numbers. The Arabic phrase lists are ours and not
+# reviewed by a native Gulf speaker (accepted risk B4).
+
+playbook_version: "1.0"
+
+labels:                                      # CM-002 [S1][S4]; adding a label is a proposal
+  - opt_out
+  - complaint
+  - bot_question
+  - meeting_request
+  - positive
+  - question
+  - objection
+  - referral
+  - wrong_person
+  - not_now
+  - not_interested
+  - auto_reply
+  - unclear
+safety_labels: [complaint, opt_out, bot_question]   # CM-003 LOCKED: always acted on, whatever else the message says
+precedence: [complaint, opt_out, bot_question, meeting_request, positive, question, objection, referral, not_now, not_interested, wrong_person, auto_reply, unclear]   # CM-003
+sop_mapping:                                 # CM-002 [S1 reply table]
+  positive: {next: jab_2, state: replied}
+  question: {next: two_line_answer_then_jab_2, state: replied}
+  meeting_request: {next: booking_link_or_handover, state: replied}   # meeting_booked only when the booking system confirms
+  not_now: {next: when_suits_you_and_followup, state: warm}
+  referral: {next: thanks_then_jab_1_to_verified_colleague, state: replied}
+  not_interested: {next: thanks_and_one_optional_why, state: lost}
+  opt_out: {next: confirmation_only_if_gates_allow, state: do_not_contact}
+
+classification:
+  min_confidence: 0.80                       # CM-031 ours
+  second_pass_on_disagreement: true          # CM-031
+  low_confidence_action: handover            # CM-031 LOCKED
+  sarcasm_suspected_action: handover         # CM-031 LOCKED [S25][S26]
+  decide_on_whole_message_and_thread: true   # CM-005
+
+opt_out:
+  detector_or_classifier: true               # CM-004 LOCKED (union; the classifier never overrides a detector hit)
+  detector: "paralax.domain.optout.detect_inbound_opt_out"
+  honour_immediately_all_channels: true      # CM-011 LOCKED [S3 C][S2 §3.7][S8]
+  company_scope_when_speaking_for_company: true   # CM-012 LOCKED
+  agent_may_lift_suppression: false          # CM-006 LOCKED
+  false_positive_action: handover_possible_false_opt_out   # CM-006 LOCKED
+  confirmation:                              # CM-013
+    max_messages: 1
+    only_through_gates: true                 # LOCKED
+    text_en: "Done, you won't hear from us again."
+    text_ar: "تم، لن نراسلك مرة أخرى."
+  extra_phrases:                             # CM-005 ours; classifier hints the detector does not cover (10 Nov 2026)
+    en: ["remove my number", "remove my details", "delete my number", "take my number off", "stop.", "unsub", "no more messages", "don't message me", "do not message this number"]
+    ar_gulf: ["احذف رقمي", "امسح رقمي", "شيلوا رقمي", "شيل رقمي", "وقفوا الرسايل", "لا ترسلون", "لا ترسل", "لا تراسلني", "خلاص لا تراسلني", "ما ابي رسايل", "بطلوا ترسلون"]
+  not_opt_out_examples: ["stop by our showroom", "I'll stop you right there", "remove the price column", "remove the company name from the report", "our work never stopped (الشغل ما توقف)"]   # CM-005
+
+complaint:                                   # CM-010 LOCKED
+  treat_as_opt_out: true
+  account_signal_kind: complaint             # orchestrator/account_health.record_account_signal
+  add_report_or_block_if_stated: true
+  automated_reply: false
+  handover_reason: complaint
+
+auto_reply:                                  # CM-007 to CM-009 [S7]
+  never_answer: true                         # CM-007 LOCKED (RFC 3834 §2)
+  counts_as_reply_for_kpi: false             # CM-007
+  email_headers:
+    auto_submitted_not_no: true
+    present: [X-Autoreply, X-Autorespond, X-Auto-Response-Suppress]
+    precedence_values: [auto_reply, bulk, junk, list]
+  subject_hints: ["Automatic reply", "Auto:", "Out of Office", "Autoreply", "رد تلقائي", "خارج المكتب"]   # hints only; need text support
+  resume_business_days_after_return: 1       # CM-008 ours
+  default_resume_days: 7                     # CM-008 ours (no return date stated)
+  release_company_lock: true                 # CM-008 (logged company.lock_released, reason auto_reply)
+  whatsapp_max_seconds_after_our_message: 10 # CM-009 ours
+  whatsapp_requires_two_signals: true        # CM-009 [S2 §10]
+  alternate_contact_route: contact_finder    # CM-019 / CF-001: never messaged until verified
+
+bot_question:                                # CM-016 LOCKED [S4][S2 §3.9][S22][S24]
+  disclose_truthfully: true
+  then_handover: true
+  template_en: "Yes, these messages are sent by an automated assistant on behalf of {sender_name} at {sender_company}. {sender_name} will reply to you personally."
+  template_ar: "نعم، هذه الرسائل يرسلها مساعد آلي نيابةً عن {sender_name} من {sender_company}، وسيرد عليك {sender_name} بنفسه."
+  no_pitch_no_question: true
+
+truthfulness:                                # CM-017 LOCKED
+  never_claim_human: true
+  forbidden_claims: ["I was driving", "just saw this on my phone", "sorry, I was in a meeting", "typing from my phone", "I'm a real person", "this isn't automated", "not a bot"]
+
+never_do:                                    # CM-018 / CM-027 LOCKED [S4][S2 §3.9]
+  - negotiate
+  - quote_price_or_discount
+  - agree_terms_scope_or_dates
+  - pay_or_request_payment
+  - create_or_change_calendar_events
+  - propose_or_confirm_specific_times
+  - accept_visit
+  - whatsapp_voice_or_video_call         # CO-050 (UAE)
+
+handover:                                    # CM-028 LOCKED (guardrail items); the agent's own additions can only grow
+  reasons:
+    - pricing
+    - negotiation
+    - legal_or_regulator
+    - personal_data_request
+    - complaint
+    - bot_question
+    - visit_request
+    - meeting_request_no_link
+    - finding_disputed
+    - outside_evidence
+    - report_change_request
+    - possible_false_opt_out
+    - sarcasm_suspected
+    - low_confidence
+    - unsupported_language
+    - unsupported_media
+    - banned_account_thread
+    - stop_rule
+  holding_line_allowed_for: [pricing, negotiation, meeting_request_no_link, report_change_request]   # CM-029
+  no_message_for: [complaint, legal_or_regulator, possible_false_opt_out, sarcasm_suspected, banned_account_thread, personal_data_request]   # CM-029 LOCKED
+  holding_line_en: "Good question, {sender_name} will come back to you on that shortly."   # CM-049: no time promises
+  holding_line_ar: "سؤال مهم، {sender_name} بيرد عليك بنفسه قريباً."
+  task_fields: [reasons, classification, thread, company_page, person_card, account, channel, suggested_draft]
+
+answers:                                     # CM-024 / CM-030 LOCKED (evidence only)
+  allowed_sources: [findings, company_report, brief_offer, offer_allow_list, approved_faq]
+  max_lines_for_question: 2                  # CM-024
+  outside_statistics: false                  # CM-030 LOCKED
+  banned_figures: ["HBR Short Life of Online Sales Leads"]   # CM-030 LOCKED [S3 A3]
+
+language:                                    # CM-032
+  reply_in_their_language: true             # LOCKED (CW-018)
+  supported: [en, ar]
+  arabic_requires_switch: arabic_auto_send   # LOCKED (owner switch B4)
+  mixed: majority_of_words
+  arabizi: en                                # ours
+  other: handover                            # unsupported_language
+
+response:                                    # CM-033 / CM-034
+  kpi_median_minutes_target: 15              # [S1] KPI target, not a deadline (decision #12)
+  count_only_allowed_hours: true
+  chat_delay_seconds: [60, 240]              # CM-034 ours
+  min_gap_between_messages_seconds: 20       # CM-034 LOCKED floor (CO-045)
+  one_bubble: true
+  allowed_hours_apply_to_replies: true       # CM-035 LOCKED [S3 A2]
+  all_drafts_through_gates: true             # CM-035 LOCKED [S4]
+
+reply_form:                                  # CM-037
+  max_words_chat: 60                         # CW-027
+  max_words_email: 80                        # CW-027
+  max_questions: 1
+  question_last: true
+  opt_out_line_every_message: true           # LOCKED [S3 C]
+  links_allowed: [company_report, booking_link]
+
+company_lock:                                # CM-014 LOCKED [S1][S5]
+  any_human_reply_locks_company: true        # LOCKED
+  continue_only_replier_thread: true         # LOCKED
+  release_reasons_without_proposal: [auto_reply, referral_jab_1]   # CM-008, CM-019 (CM-015)
+  w1_not_interested_keeps_company_paused: true   # CM-015
+
+whatsapp:                                    # CM-036 LOCKED [S8][S9]
+  max_unanswered: 2                          # LOCKED (CO-041, compliance/uae.py)
+  cloud_api_free_form_window_hours: 24       # LOCKED
+  outside_window: template_or_other_channel
+
+followup:                                    # CM-022 / CM-038 / CM-039 [S1]
+  nudge_days: [2, 5, 10]
+  each_nudge_adds_new: true
+  warm_checkin_days: 30
+  not_now_default_days: 30                   # ours
+  given_up_label_only_as_ab_test: true       # CM-038 (CW-044, CW-034)
+  cold_after_touches_without_engagement: 7
+  cold_pause_days: 60
+  warm_after_touches_engaged_no_reply: 7
+  warm_extra_touch_day: 30
+  quarter_start_means_first_working_day: true
+  holiday_calendar: null                     # CHANGELOG open point 7 ("after Eid" → ask, human sets the date)
+
+stop_rule:                                   # CM-040 LOCKED (a stop rule exists) [S2 §10]
+  max_automated_replies_without_progress: 3  # ours
+  stop_when: [meeting_booked, report_delivered_and_next_step_set]
+
+meetings:                                    # CM-027 / CM-041 / CM-042
+  booking_link: null                         # set when the owner provides it (G4, before Day 5); null → handover
+  slot_minutes: 20                           # [S1] meeting structure
+  brief_required: [company_page, person_card, thread]   # CM-041 LOCKED [S1 acceptance rule]
+  reminders_hours_before: [24, 1]
+  reminder_channels: [email, whatsapp]
+  no_show_reschedule_within_minutes: 10
+  second_no_show: handover                   # ours
+
+data_requests:                               # CM-043 LOCKED [S3 D3][S12]
+  delete_request: erase_all_channels          # paralax erase
+  who_gave_my_number: handover_with_source    # source + collected_at attached (CF-044)
+  correction_about_other_person: mark_stale_and_reverify   # CM-048 (default)
+
+accounts:                                    # CM-044 / CM-045 LOCKED [S3 C]
+  signal_on_block_or_report: true
+  never_continue_thread_from_other_account: true
+
+kpi:                                         # CM-047 [S1]
+  positive_reply_to_meeting_target: 0.25
+  median_response_minutes_target: 15
+  attendance_target: 0.80
+  human_relabel_becomes_test_case: true      # LOCKED
+
+locked_reference:                            # the hard guardrails this agent enforces or feeds (never proposable)
+  stop_on_every_channel_immediately: "CM-004, CM-011, CM-012 [S3 C]"
+  truthful_when_asked_if_automated: "CM-016, CM-017 [S4]"
+  never_negotiate_pay_book_visit: "CM-018, CM-027 [S4][S2 §3.9]"
+  escalation_list: "CM-028 [S2 §3.11]"
+  company_reply_lock: "CM-014 [S1][S5 gates/dnc.py]"
+  evidence_only: "CM-030 [S2 §3.4][S3 A3]"
+  gates_and_allowed_hours: "CM-035 [S3 A2, C]"
+  banned_account_threads: "CM-045 [S3 C]"

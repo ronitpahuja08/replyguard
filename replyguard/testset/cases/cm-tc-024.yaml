@@ -1,0 +1,46 @@
+id: cm-tc-024
+title: 'Left the company: thank, flag, re-map; no question'
+tags:
+- email
+- en
+- wrong_person
+rules:
+- CM-020
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: I left Al Noor Motors in August, I'm not the right person anymore.
+expect:
+  label: wrong_person
+  detector_opt_out: false
+  suppress: none
+  person_flag: left_company
+  route_to:
+  - buyer_mapper
+  - contact_finder
+  handover: false
+  reply: thanks
+  max_questions: 0
+  further_touches_to_person: 0
+  also: []

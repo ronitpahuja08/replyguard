@@ -1,0 +1,45 @@
+id: cm-tc-017
+title: Emirati 'not interested, thanks' (مب مهتم) is not an opt-out
+tags:
+- whatsapp
+- ar_gulf
+- not_interested
+- tricky
+rules:
+- CM-021
+- CM-032
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: مرحبا خالد، قسنا كيف يرد معرض النور على استفسارات الواتساب بعد الدوام، والنتيجة لفتت انتباهنا. أرسل لك الملخص؟ علي، Paralax. للإلغاء،
+      أرسل STOP.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: مب مهتم، مشكور
+expect:
+  label: not_interested
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: lost
+  lost_reason: مب مهتم، مشكور
+  handover: false
+  reply: thanks_optional_why
+  reply_language: ar
+  also: []

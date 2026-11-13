@@ -1,0 +1,16 @@
+id: cm-good-09
+channel: whatsapp
+language: ar
+summary: '''مب مهتم'' gets thanks and one optional why, then Lost in their words.'
+input:
+  reply: مب مهتم، مشكور
+output:
+  label: not_interested
+  reply: مشكور على ردك. للعلم فقط، هل السبب التوقيت أم أنه غير مناسب لكم؟ للإلغاء، أرسل STOP.
+  lead_state_after: lost
+  lost_reason: مب مهتم، مشكور
+  company_lock: kept
+why:
+- CM-021
+- CM-015
+explanation: Never argue with a no; one easy question at most; the company stays paused.

@@ -1,0 +1,45 @@
+id: cm-tc-036
+title: A short human 'ok' 40 minutes later is human (the DubiCars lesson)
+tags:
+- whatsapp
+- en
+- positive
+- tricky
+rules:
+- CM-009
+- CM-023
+input:
+  now: '2026-11-10T10:45:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:45:00+04:00'
+    text: ok
+    seconds_after_our_last: 2400
+expect:
+  label: positive
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  counts_as_reply: true
+  handover: false
+  reply: jab_2
+  also: []

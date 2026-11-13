@@ -1,0 +1,45 @@
+id: cm-tc-045
+title: '''Yes, send it'' at 22:30 Thursday is answered at Friday 09:00, not at night'
+tags:
+- whatsapp
+- en
+- positive
+- allowed_hours
+rules:
+- CM-035
+- CM-033
+input:
+  now: '2026-11-12T22:30:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-12T22:30:00+04:00'
+    text: Yes, send it
+expect:
+  label: positive
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover: false
+  reply: jab_2
+  send_not_before: '2026-11-13T09:00:00+04:00'
+  response_minutes_counted: working_hours_only
+  also: []

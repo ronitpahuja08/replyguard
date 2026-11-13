@@ -1,0 +1,44 @@
+id: cm-tc-048
+title: 'French ''thanks, not interested'': unsupported language → a human'
+tags:
+- email
+- fr
+- not_interested
+- unsupported
+rules:
+- CM-032
+- CM-021
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Merci, pas intéressé.
+expect:
+  label: not_interested
+  detector_opt_out: false
+  suppress: none
+  handover:
+    reasons:
+    - unsupported_language
+  reply: none
+  also: []

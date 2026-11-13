@@ -1,0 +1,46 @@
+id: cm-tc-016
+title: '''Not interested. Please stop.'': opt-out wins over not interested'
+tags:
+- email
+- en
+- opt_out
+- precedence
+rules:
+- CM-003
+- CM-011
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Not interested. Please stop.
+expect:
+  label: opt_out
+  suppress: person
+  lead_state_after: do_not_contact
+  account_signals: []
+  cancel_jobs: true
+  reply: confirmation_only
+  also:
+  - not_interested
+  detector_opt_out: true
+  handover: false

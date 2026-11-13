@@ -1,0 +1,28 @@
+id: cm-good-01
+channel: whatsapp
+language: en
+summary: A dealer replies STOP at 19:20. Suppressed everywhere at once; one confirmation line only if the gates allow it.
+input:
+  thread_last_out: jab 1 (Ali, Paralax)
+  reply: STOP
+  at: '2026-11-10T19:20:00+04:00'
+output:
+  label: opt_out
+  detector_opt_out: true
+  suppress: person
+  lead_state_after: do_not_contact
+  cancelled_jobs:
+  - email day 3
+  - linkedin day 5
+  reply:
+    allowed: confirmation_only
+    text: Done, you won't hear from us again.
+    send_at: '2026-11-11T09:00:00+04:00'
+    gate_result: 'blocked: dnc:lead_state:do_not_contact'
+  decision: confirmation_blocked_by_gate; nothing sent
+why:
+- CM-004
+- CM-011
+- CM-013
+explanation: Suppression is not a message, so it happens at 19:20, not at 09:00. The confirmation is a message, so it waits for allowed hours
+  and for the gates; today Gate 2 blocks it and silence is the safe result.

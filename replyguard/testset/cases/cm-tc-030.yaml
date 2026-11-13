@@ -1,0 +1,50 @@
+id: cm-tc-030
+title: '''Let''s talk, Tuesday works'' with no booking link: a human; never confirm a time'
+tags:
+- email
+- en
+- meeting
+- locked
+rules:
+- CM-027
+- CM-028
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Let's talk next week, Tuesday works
+expect:
+  label: meeting_request
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: replied
+  handover:
+    reasons:
+    - meeting_request_no_link
+  reply: holding_line
+  must_not_include:
+  - Tuesday at
+  - confirmed
+  - see you
+  calendar_events_created: 0
+  also: []

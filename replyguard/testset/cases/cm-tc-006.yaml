@@ -1,0 +1,50 @@
+id: cm-tc-006
+title: 'Arabic ''delete my number'' (detector gap): opt-out plus erasure'
+tags:
+- whatsapp
+- ar
+- opt_out
+- detector_gap
+- locked
+rules:
+- CM-004
+- CM-005
+- CM-011
+- CM-043
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: مرحبا خالد، قسنا كيف يرد معرض النور على استفسارات الواتساب بعد الدوام، والنتيجة لفتت انتباهنا. أرسل لك الملخص؟ علي، Paralax. للإلغاء،
+      أرسل STOP.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: احذف رقمي لو سمحت
+expect:
+  label: opt_out
+  suppress: person
+  lead_state_after: do_not_contact
+  account_signals: []
+  cancel_jobs: true
+  reply: confirmation_only
+  detector_opt_out: true  # v1.1: the 10 Nov 2026 detector gap is fixed in domain/optout.py
+  erase: true
+  reply_language: ar
+  handover: false
+  also: []

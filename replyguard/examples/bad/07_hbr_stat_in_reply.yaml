@@ -1,0 +1,10 @@
+id: cm-bad-07
+channel: whatsapp
+summary: WRONG. A reply said 'Harvard research shows leads go cold after 5 minutes'.
+output_given:
+  reply: Harvard research shows leads go cold after 5 minutes, so speed matters.
+output_expected:
+  reply: only claims traced to their findings or the offer
+why:
+- CM-030
+explanation: Owner decision A3 bans the HBR figures; outside statistics stay out of messages.

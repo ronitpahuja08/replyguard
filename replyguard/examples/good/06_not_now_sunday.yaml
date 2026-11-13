@@ -1,0 +1,18 @@
+id: cm-good-06
+channel: whatsapp
+language: en
+summary: '''Msg me Sunday'' moves to Monday''s window, and the reply says so.'
+input:
+  reply: Busy now, msg me Sunday
+  at: '2026-11-10T10:12:00+04:00'
+output:
+  label: not_now
+  lead_state_after: warm
+  reply: No problem, I'll message you Monday morning. Reply STOP to opt out.
+  followup:
+    'on': '2026-11-16'
+    at: '10:00'
+why:
+- CM-022
+- CM-035
+explanation: The UAE pack's hours are Mon–Fri; their preference can't override a locked guardrail, so we tell them the real time.

@@ -1,0 +1,44 @@
+id: cm-tc-035
+title: WhatsApp greeting/away message 3 seconds after jab 1 (two signals)
+tags:
+- whatsapp
+- en
+- auto_reply
+rules:
+- CM-009
+input:
+  now: '2026-11-10T10:05:03+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:05:03+04:00'
+    text: 'Thank you for contacting Al Noor Motors! Our team will get back to you shortly. Showroom hours: 9am-9pm.'
+    seconds_after_our_last: 3
+expect:
+  label: auto_reply
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: unchanged
+  counts_as_reply: false
+  company_lock: released_auto_reply
+  reply: none
+  handover: false
+  also: []

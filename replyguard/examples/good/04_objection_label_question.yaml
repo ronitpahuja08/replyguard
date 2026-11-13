@@ -1,0 +1,21 @@
+id: cm-good-04
+channel: email
+language: en
+summary: An objection answered with a label and one calibrated question, shorter than theirs.
+input:
+  reply: We already use a CRM for this, why would we need you?
+  finding: first reply to a Saturday portal enquiry came after 26 hours (mystery shop, 1 Nov 2026)
+output:
+  label: objection
+  reply: 'Sounds like the CRM already captures every enquiry. How quickly does the first reply go out when one lands on a Saturday?
+
+
+    Ali, Paralax
+
+    Reply STOP to opt out.'
+why:
+- CM-025
+- CM-026
+- CM-037
+explanation: 'No feature list (Huthwaite: features create objections), no rebuttal; the question points at the measured gap without stating a
+  number they didn''t ask for.'

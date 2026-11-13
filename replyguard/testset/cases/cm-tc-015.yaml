@@ -1,0 +1,46 @@
+id: cm-tc-015
+title: 'Not interested: thanks + one optional why; Lost with their words; company stays paused'
+tags:
+- email
+- en
+- not_interested
+rules:
+- CM-021
+- CM-015
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: Not interested, thanks
+expect:
+  label: not_interested
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: lost
+  lost_reason: Not interested, thanks
+  company_lock: kept
+  handover: false
+  reply: thanks_optional_why
+  max_questions: 1
+  max_messages_after: 1
+  also: []

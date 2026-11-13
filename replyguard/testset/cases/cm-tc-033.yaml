@@ -1,0 +1,51 @@
+id: cm-tc-033
+title: 'Out-of-office email (Auto-Submitted): never answered; resume after the return date; lock released'
+tags:
+- email
+- en
+- auto_reply
+- headers
+rules:
+- CM-007
+- CM-008
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: I'm out of the office until 24 Nov with limited access to email.
+    headers:
+      Auto-Submitted: auto-replied
+      Subject: 'Automatic reply: one result stood out'
+expect:
+  label: auto_reply
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: unchanged
+  counts_as_reply: false
+  company_lock: released_auto_reply
+  reply: none
+  followup:
+    kind: resume_after_ooo
+    'on': '2026-11-25'
+  handover: false
+  also: []

@@ -1,0 +1,21 @@
+id: cm-good-10
+channel: whatsapp
+language: en
+summary: '''This is spam. Reported.'' → suppression, account signals, a human; no automated reply.'
+input:
+  reply: This is spam. Reported.
+  account: wa-ali
+output:
+  label: complaint
+  suppress: person
+  account_signals:
+  - complaint
+  - report
+  reply: null
+  handover:
+    reasons:
+    - complaint
+why:
+- CM-010
+- CM-044
+explanation: Complaints rest accounts (guardrail C); the Channel Operator throttles on the signal; the human decides on an apology.

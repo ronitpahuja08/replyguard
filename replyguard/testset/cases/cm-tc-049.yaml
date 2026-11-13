@@ -1,0 +1,64 @@
+id: cm-tc-049
+title: 'Replied then quiet on WhatsApp: nudges on days 2 and 5 on WhatsApp, day 10 by email (cap), then warm'
+tags:
+- whatsapp
+- followup
+- cap
+- locked
+rules:
+- CM-038
+- CM-036
+- CM-039
+input:
+  now: '2026-11-09T11:00:00+04:00'
+  channel: whatsapp
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: wa-ali
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-06T10:05:00+04:00'
+    text: Hi Khalid, we measured how Al Noor Motors answers WhatsApp enquiries after hours, and the result surprised us. Shall I send you the
+      one-pager? Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  - dir: in
+    at: '2026-11-06T10:30:00+04:00'
+    text: Yes send it
+  - dir: out
+    at: '2026-11-09T10:10:00+04:00'
+    kind: jab_2
+    text: 'Here it is: <report link>. The after-hours number is on page 1. Anything you''d like me to explain? Ali, Paralax. Reply STOP to opt
+      out.'
+  reply:
+    at: '2026-11-09T11:00:00+04:00'
+    text: ''
+  event: no_reply_after_jab_2
+  verified_channels:
+  - whatsapp
+  - email
+expect:
+  label: null
+  followup_plan:
+  - 'on': '2026-11-11'
+    channel: whatsapp
+    kind: nudge
+  - 'on': '2026-11-13'
+    channel: whatsapp
+    kind: nudge
+  - 'on': '2026-11-19'
+    channel: email
+    kind: nudge
+  then:
+    state: warm
+    checkin_on: '2026-12-19'
+  whatsapp_unanswered_max: 2

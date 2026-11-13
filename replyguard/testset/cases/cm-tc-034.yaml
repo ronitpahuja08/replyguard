@@ -1,0 +1,55 @@
+id: cm-tc-034
+title: 'Out-of-office naming an alternate contact: Sara goes to the Contact Finder, not straight to a message'
+tags:
+- email
+- en
+- auto_reply
+- referral
+- tricky
+rules:
+- CM-007
+- CM-019
+input:
+  now: '2026-11-10T10:12:00+04:00'
+  channel: email
+  campaign:
+    options:
+      arabic_auto_send: true
+      whatsapp_cold_first_touch: true
+    booking_link: null
+  sender:
+    name: Ali
+    company: Paralax
+    account: mbx-ali-1
+  lead:
+    state: contacted
+    wave: 1
+    is_company_contact: false
+  thread:
+  - dir: out
+    at: '2026-11-10T10:05:00+04:00'
+    text: Hi Feras, we measured how Skyline Keys handles portal enquiries on weekends. One result stood out. Want me to send the one-page summary?
+      Ali, Paralax. Reply STOP to opt out.
+    kind: jab_1
+  reply:
+    at: '2026-11-10T10:12:00+04:00'
+    text: I am on annual leave until 1 December. For urgent matters please contact Sara Haddad at sara.haddad@pearlsmile.example.
+    headers:
+      Auto-Submitted: auto-replied
+      X-Autoreply: 'yes'
+expect:
+  label: auto_reply
+  also:
+  - referral
+  detector_opt_out: false
+  suppress: none
+  lead_state_after: unchanged
+  counts_as_reply: false
+  reply: none
+  route_to:
+  - contact_finder
+  messages_to_new_person_before_verified: 0
+  followup:
+    kind: resume_after_ooo
+    'on': '2026-12-02'
+  handover: false

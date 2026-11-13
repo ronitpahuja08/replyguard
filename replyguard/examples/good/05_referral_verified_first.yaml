@@ -1,0 +1,20 @@
+id: cm-good-05
+channel: email
+language: en
+summary: 'A forward to a colleague: thanks to the sender, the colleague goes to the Contact Finder, and jab 1 names the referrer only after verification.'
+input:
+  reply: Forwarding to Hana who runs our call centre. Hana, see below.
+  cc: hana@skylinekeys.example
+output:
+  label: referral
+  reply_to_sender: Thank you, Feras, much appreciated. Reply STOP to opt out.
+  route_to:
+  - contact_finder
+  hana:
+    verification: pending
+    messages: 0
+  after_verified: 'Copywriter jab 1 to Hana: ''Feras suggested I get in touch...'''
+why:
+- CM-019
+- CM-014
+explanation: Verified contacts only; a Cc address is a candidate, not a verified contact.

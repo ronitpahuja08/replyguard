@@ -1,0 +1,17 @@
+id: cm-good-08
+channel: whatsapp
+language: ar
+summary: '''كم السعر؟'' gets a holding line in Arabic and a pricing task.'
+input:
+  reply: كم السعر؟
+output:
+  label: question
+  handover:
+    reasons:
+    - pricing
+  reply: سؤال مهم، سام بيرد عليك بنفسه قريباً. للإلغاء، أرسل STOP.
+why:
+- CM-018
+- CM-028
+- CM-029
+explanation: Agents never discuss price; a holding line keeps the reply fast without promising anything.

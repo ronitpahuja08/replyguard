@@ -1,0 +1,11 @@
+id: cm-bad-06
+channel: email
+summary: WRONG. After 'Not interested', the agent replied with three reasons to reconsider and a booking link.
+output_given:
+  reply: 'Totally understand! But consider: 1) ... 2) ... 3) ... Here''s my calendar: <link>'
+output_expected:
+  reply: thanks_optional_why
+  lead_state_after: lost
+why:
+- CM-021
+explanation: 'Never argue with a no: thanks, one optional why, Lost.'

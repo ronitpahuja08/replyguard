@@ -1,0 +1,16 @@
+id: cm-bad-02
+channel: whatsapp
+summary: WRONG. 'Please remove my number from your list' was answered with jab 2 because the detector didn't fire.
+output_given:
+  label: positive
+  detector_opt_out: false
+  reply: jab_2
+output_expected:
+  label: opt_out
+  suppress: person
+  lead_state_after: do_not_contact
+why:
+- CM-004
+- CM-005
+- CM-011
+explanation: The detector is a floor, not a ceiling; the classifier must add the opt-outs it misses.

@@ -1,0 +1,13 @@
+id: cm-bad-08
+channel: whatsapp
+summary: WRONG. Ali's number was banned mid-thread; the agent sent jab 2 from Ronit's number.
+output_given:
+  sent_from: wa-ronit
+output_expected:
+  handover:
+    reasons:
+    - banned_account_thread
+  messages_from_other_accounts: 0
+why:
+- CM-045
+explanation: A banned account's threads are never continued from another account (locked).
